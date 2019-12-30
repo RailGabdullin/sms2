@@ -1,11 +1,18 @@
 package com.gabdullin.rail.smsmessanegr;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.text.InputType;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
+import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,13 +42,32 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(((EditText) view.findViewById(R.id.smsTextField)).getText().length() > 0) {
-                    SmsManager.getDefault().sendTextMessage("+7927432535", null, ((EditText) view.findViewById(R.id.smsTextField)).getText().toString(), null, null);
-                    SMSList.getSMSList().add(new SMS("me", ((EditText) view.findViewById(R.id.smsTextField)).getText().toString(), "Time", true));
+                    if(SMSList.getSmsAddress().equals("Диалог пуст")){
+                        insertAddress(view.getContext());
+                        return;
+                    }
+                    SmsManager.getDefault().sendTextMessage(SMSList.getSmsAddress(), null, ((EditText) view.findViewById(R.id.smsTextField)).getText().toString(), null, null);
+                    SMSList.getSMSList().add(new SMS("me", ((EditText) view.findViewById(R.id.smsTextField)).getText().toString(), DateFormat.format("k:mm", new Date()).toString(), true));
                     ((EditText) view.findViewById(R.id.smsTextField)).setText(null);
                     updateSMSListView();
                 }
             }
         });
+    }
+
+    private void insertAddress(Context context) {
+        AlertDialog.Builder insertAddressDialog = new AlertDialog.Builder(getContext());
+        insertAddressDialog.setTitle("Введите номер адресата");
+        final EditText enterAddressNumber = new EditText(context);
+        enterAddressNumber.setInputType(InputType.TYPE_CLASS_PHONE);
+        insertAddressDialog.setView(enterAddressNumber);
+        insertAddressDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SMSList.setAddress(enterAddressNumber.getText().toString());
+            }
+        });
+        insertAddressDialog.show();
     }
 
     @Override
@@ -50,6 +76,9 @@ public class MainFragment extends Fragment {
         updateSMSListView();
     }
 
+    //Этот метод обновляет список сообщений при приходе-отправке новых сообщений.
+    //Он используется в smsReceiver и лисенере кнопки send в MainFragment
+    //Реализация через статичный метод явно не лучшая, буду благодарен за подсказку как улучшить
     public static void updateSMSListView() {
         recyclerView.setAdapter(new smsListAdapter());
     }
