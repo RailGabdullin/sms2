@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 class smsListAdapter extends RecyclerView.Adapter<smsListAdapter.smsListHolder> {
+
+    //Реализовал список сообщений на основе ArrayList. По-хорошему, конечно надо сделать на основе SQL
     private SMSList smsList = SMSList.getSMSList();
 
     @NonNull
@@ -26,7 +28,6 @@ class smsListAdapter extends RecyclerView.Adapter<smsListAdapter.smsListHolder> 
     @Override
     public int getItemCount() {
         return smsList.size();
-//        return 3;
     }
 
     class smsListHolder extends RecyclerView.ViewHolder {

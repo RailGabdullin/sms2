@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.telephony.SmsMessage;
+import android.text.format.DateFormat;
 
 public class smsReceiver extends BroadcastReceiver {
 
@@ -33,7 +34,7 @@ public class smsReceiver extends BroadcastReceiver {
     }
 
     private void addToList(String smsFromPhone, String bodyText, long timestampMillis, boolean mine, Context context) {
-        SMSList.getSMSList().add(new SMS(smsFromPhone, bodyText, String.valueOf(timestampMillis), mine));
+        SMSList.getSMSList().add(new SMS(smsFromPhone, bodyText, DateFormat.format("HH:mm", timestampMillis).toString(), mine));
         MainFragment.updateSMSListView();
     }
 }
