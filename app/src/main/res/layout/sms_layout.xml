@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/smsLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp">
+
+    <TextView
+        android:id="@+id/smsFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="8(923)233-32-32"
+        android:textAlignment="viewEnd"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/smsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Как дела?"
+        android:textSize="17sp"/>
+    <TextView
+        android:id="@+id/smsDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12:00 01.01"
+        android:textSize="10sp"/>
+
+</LinearLayout>
